@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct {
     int id;
@@ -18,22 +19,51 @@ void imprimir_produtos(Produto *produtos, int quantidade) {
 }
 
 int main() {
-    Produto produtos[3] = {
-        {1, 100.0},
-        {2, 50.0},
-        {3, 250.0}
-    };
+    Produto *produtos;
+    Produto *produto_atual;
+    int quantidade;
     int i;
+    float percentual_desconto;
 
-    printf("Produtos antes do desconto:\n");
-    imprimir_produtos(produtos, 3);
+    printf("Quantos produtos deseja cadastrar? ");
+    scanf("%d", &quantidade);
 
-    for (i = 0; i < 3; i++) {
-        aplicar_desconto(produtos + i, 10.0);
+    if (quantidade <= 0) {
+        printf("Quantidade invalida.\n");
+        return 1;
+    }
+
+    produtos = (Produto *) malloc(quantidade * sizeof(Produto));
+
+    if (produtos == NULL) {
+        printf("Erro ao alocar memoria.\n");
+        return 1;
+    }
+
+    for (i = 0; i < quantidade; i++) {
+        produto_atual = produtos + i;
+
+        printf("\nProduto %d\n", i + 1);
+        printf("ID: ");
+        scanf("%d", &produto_atual->id);
+        printf("Preco: ");
+        scanf("%f", &produto_atual->preco);
+    }
+
+    printf("\nProdutos cadastrados:\n");
+    imprimir_produtos(produtos, quantidade);
+
+    printf("\nPercentual de desconto: ");
+    scanf("%f", &percentual_desconto);
+
+    for (i = 0; i < quantidade; i++) {
+        aplicar_desconto(produtos + i, percentual_desconto);
     }
 
     printf("\nProdutos depois do desconto:\n");
-    imprimir_produtos(produtos, 3);
+    imprimir_produtos(produtos, quantidade);
+
+    free(produtos);
 
     return 0;
 }
