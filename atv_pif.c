@@ -1,16 +1,17 @@
 #include <stdio.h>
 
+void aplicar_desconto(float *preco, float percentual_desconto) {
+    *preco = *preco - (*preco * percentual_desconto / 100);
+}
+
 int main() {
     float preco = 100.0;
-    float *p_preco;
 
-    printf("Preco antes do aumento: %.2f\n", preco);
+    printf("Preco antes do desconto: %.2f\n", preco);
 
-    p_preco = &preco;
+    aplicar_desconto(&preco, 10.0);
 
-    *p_preco = *p_preco + (*p_preco * 0.10);
-
-    printf("Preco depois do aumento: %.2f\n", preco);
+    printf("Preco depois do desconto: %.2f\n", preco);
 
     return 0;
 }
